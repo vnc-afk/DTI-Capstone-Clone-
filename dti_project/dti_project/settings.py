@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'locations',
     'rest_framework',
     'social_django',
+    'encrypted_model_fields',
 ]
 
 MIDDLEWARE = [
@@ -106,11 +107,11 @@ ASGI_APPLICATION = "dti_project.asgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dti_project',       # your database name
-        'USER': 'postgres',           # your PostgreSQL username
-        'PASSWORD': 'Prince0l@guer@123',  # your PostgreSQL password
-        'HOST': 'localhost',          # or your server address
-        'PORT': '5433',               # default PostgreSQL port
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),               # default PostgreSQL port
     }
 }
 
@@ -132,6 +133,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+FIELD_ENCRYPTION_KEY = os.getenv("FIELD_ENCRYPTION_KEY")
 
 
 # Internationalization

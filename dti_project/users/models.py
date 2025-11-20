@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.urls import reverse
 from django.utils import timezone
+from encrypted_model_fields.fields import EncryptedCharField, EncryptedTextField
 
 # Create your models here.
 
@@ -27,24 +28,23 @@ class User(AbstractUser):
     verification_code = models.CharField(max_length=6, blank=True, null=True)
     verification_code_expiration_date = models.DateTimeField(blank=True, null=True)
 
-    default_address = models.CharField(max_length=255, blank=True, null=True)
-    default_phone = models.CharField(max_length=11, blank=True, null=True)
-    birthday = models.DateField(blank=True, null=True)
+    default_address = EncryptedCharField(max_length=255, blank=True, null=True)
+    default_phone = EncryptedCharField(max_length=11, blank=True, null=True)
+    birthday = EncryptedCharField(blank=True, null=True)
 
-    dti_office = models.CharField(
+    dti_office = EncryptedCharField(
         max_length=255,
         blank=True,
         null=True,
         help_text="Only applicable if the user is a collection agent."
     )
-    official_designation = models.CharField(
+    
+    official_designation = EncryptedCharField(
         max_length=100,
         blank=True,
         null=True,
         help_text="Only applicable if the user is a collection agent."
     )
-
-    birthday = models.DateField(blank=True, null=True)
     
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
